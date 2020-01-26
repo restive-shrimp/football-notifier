@@ -1,0 +1,7 @@
+cron:
+- description: "Monday reminder"
+  url: /mail/monday
+  schedule: every monday 09:00
+- description: "Wednesday reminder"
+  url: /mail/wednesday
+  schedule: every wednesday 09:00
