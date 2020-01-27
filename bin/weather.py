@@ -2,6 +2,7 @@
 register at: https://darksky.net/dev 
 Due to initial minimal scalability of the project, most of the information is kept as a static
 messages in the constructor.
+Notes about format options: https://darksky.net/dev/docs#forecast-request
 """
 
 import requests
