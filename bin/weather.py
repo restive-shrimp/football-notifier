@@ -5,9 +5,11 @@ messages in the constructor.
 Notes about format options: https://darksky.net/dev/docs#forecast-request
 """
 
-import requests
-from requests.exceptions import HTTPError
 import json
+import requests
+import time
+from datetime import date, datetime, timedelta
+from requests.exceptions import HTTPError
 
 
 class Weather:
@@ -15,23 +17,25 @@ class Weather:
   def __init__(self):
   	"""Constructor initalizes hardcoded data."""
   	self.cityCoordinates = '-33.868448,151.198763' # Sydney Pyrmont
+  	self.host = 'https://api.darksky.net/forecast'
   	self.weatherRequestOptions = {
-  	  'exclude': 'currently;hourly;minutely;alerts',
-  	  'units': 'si'
+  	  'exclude': 'currently;minutely;alerts',
+  	  'units': 'si',
+  	  'timezone': 'Australia/Sydney'
   	} # This version requires just a daily forecast
-  	self.weatherRequest = 'https://api.darksky.net/forecast/{weatherAPISecret}/{cityCoordinates}'
+  	self.weatherRequest = '{host}/{weatherAPISecret}/{cityCoordinates}'
   	self.apiErrorMessage = {
       "message": "Weather API wasn't available."
     } # Currently this is a generic error message.
 
   
   def getForecast(self, apiKey):
-    """Get a daily weather forecast.
+    """Get a daily weather forecast. 
     Args:
       apiKey: string, Darksky API developer key.
     """
     # Construct a request url based on a template.
-    url = self.weatherRequest.replace('{weatherAPISecret}', apiKey).replace('{cityCoordinates}', self.cityCoordinates)
+    url = self.weatherRequest.format(host=self.host, weatherAPISecret=apiKey, cityCoordinates=self.cityCoordinates)
     
     try:
         response = requests.get(
@@ -47,7 +51,10 @@ class Weather:
         return json.loads(response.text)
 
 
-  def getForecastField(fieldName):
-    # This function will return a certain data from JSON
-    # i.e. return y["daily"]["data"][0]["summary"]
-    return null
+  def getForecastForDayAndTime(self, daysAhead=1, forecastTime=12):
+    # This function is to remove unnecesary JSON elements end return
+    # core data for forecast: precipitation, temperature, icon for the day and 1 hour before and after the
+    # requested forecast.
+    forecastDateTime = date.today() + timedelta(days=daysAhead)
+    forecastTime = datetime(forecastDateTime.year, forecastDateTime.month, forecastDateTime.day, forecastTime)
+    return forecastTime.isoformat(' ')

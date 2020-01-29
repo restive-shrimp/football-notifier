@@ -36,6 +36,12 @@ def readWeather():
   forecast = Weather().getForecast(config.weatherAPISecret)
   return forecast
 
+@app.route('/weather2')
+def readWeather2():
+  forecast = Weather().getForecastForDayAndTime()
+  return forecast
+  
+
 if __name__ == '__main__':
     # This is used when running locally only. When deploying to Google App
     # Engine, a webserver process such as Gunicorn will serve the app. This
