@@ -15,32 +15,28 @@ from requests.exceptions import HTTPError
 class Weather:
 
   def __init__(self):
-  	"""Constructor initalizes hardcoded data."""
-  	self.cityCoordinates = '-33.868448,151.198763' # Sydney Pyrmont
-  	self.host = 'https://api.darksky.net/forecast'
-  	self.weatherRequestOptions = {
-  	  'exclude': 'currently;minutely;alerts',
-  	  'units': 'si',
-  	  'timezone': 'Australia/Sydney'
-  	} # This version requires just a daily forecast
-  	self.weatherRequest = '{host}/{weatherAPISecret}/{cityCoordinates}'
   	self.apiErrorMessage = {
       "message": "Weather API wasn't available."
     } # Currently this is a generic error message.
 
   
-  def getForecast(self, apiKey):
+  def getForecast(self, config):
     """Get a daily weather forecast. 
     Args:
-      apiKey: string, Darksky API developer key.
+      config: config object with all required API data.
     """
     # Construct a request url based on a template.
-    url = self.weatherRequest.format(host=self.host, weatherAPISecret=apiKey, cityCoordinates=self.cityCoordinates)
+    weatherApi = config['WEATHER_API'];
+    url = weatherApi['weatherRequestTemplate'].format(
+    	host=weatherApi['weatherApiHost'], 
+    	weatherAPISecret=weatherApi['weatherAPISecret'],
+    	cityCoordinates=weatherApi['cityCoordinates']
+    	)
     
     try:
         response = requests.get(
           url,
-          params=self.weatherRequestOptions,
+          params=config['WEATHER_API_REQUEST_OPTIONS'],
         )
         response.raise_for_status()
     except HTTPError as http_err:
