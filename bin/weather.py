@@ -8,6 +8,9 @@ Notes about format options: https://darksky.net/dev/docs#forecast-request
 import json
 import requests
 import time
+from .utils import Utils
+
+import datetime as dt
 from datetime import date, datetime, timedelta
 from requests.exceptions import HTTPError
 
@@ -32,7 +35,6 @@ class Weather:
     	weatherAPISecret=weatherApi['weatherAPISecret'],
     	cityCoordinates=weatherApi['cityCoordinates']
     	)
-    
     try:
         response = requests.get(
           url,
@@ -47,10 +49,30 @@ class Weather:
         return json.loads(response.text)
 
 
-  def getForecastForDayAndTime(self, daysAhead=1, forecastTime=12):
+  def extractForecastForDayAndTime(self, forecast, daysAhead=1, forecastTime=12):
     # This function is to remove unnecesary JSON elements end return
     # core data for forecast: precipitation, temperature, icon for the day and 1 hour before and after the
     # requested forecast.
-    forecastDateTime = date.today() + timedelta(days=daysAhead)
-    forecastTime = datetime(forecastDateTime.year, forecastDateTime.month, forecastDateTime.day, forecastTime)
-    return forecastTime.isoformat(' ')
+    forecastNodesList = []
+    utils = Utils()
+    forecastDateTime = date.today() + timedelta(days=int(daysAhead))
+    # Get timestamps an hour before an event, of an event and an hour after.
+    forecastTimes = [
+      dt.datetime(forecastDateTime.year, forecastDateTime.month, forecastDateTime.day, int(forecastTime)-1),
+      dt.datetime(forecastDateTime.year, forecastDateTime.month, forecastDateTime.day, int(forecastTime)),
+      dt.datetime(forecastDateTime.year, forecastDateTime.month, forecastDateTime.day, int(forecastTime)+1)
+    ]
+
+    forecastTimes = self.convertToString(forecastTimes)
+    for forecastTime in forecastTimes:
+      forecastNodesList.append(utils.extractNodeByTimestamp(forecast['hourly']['data'], forecastTime))
+
+    return str(forecastNodesList)
+
+  def convertToString(self, dateTimestampArray):
+  	# Converts timestamp to string.
+  	# TODO: make it less manual.
+    parsedTimes = []
+    for i in dateTimestampArray:
+      parsedTimes.append(str(datetime.timestamp(i)).split('.')[0])
+    return parsedTimes

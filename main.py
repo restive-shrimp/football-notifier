@@ -13,7 +13,8 @@ import requests
 from requests.auth import HTTPDigestAuth
 import configparser
 import json
-import datetime
+from datetime import date, datetime
+
 
 from bin import utils
 from bin.weather import Weather
@@ -34,15 +35,20 @@ def main():
 @app.route('/mail/<weekday>')
 def sendMail(weekday):
   #This is a page which cron job requests to send an email.
-  return render_template(
-    'email_template.html',
-    weekday=weekday, 
-    icon1=config['ICONS']['sunny'],
-    icon2=config['ICONS']['sunny'],
-    icon3=config['ICONS']['sunny']
+  #If today is defined in config.ini, get the current forecast and
+  #send an email.
+  todayWeekday = 'Monday' #date.today().strftime('%A')
 
-    )
- # return weekday
+  for section in config.sections():
+    if(str(todayWeekday).upper() == str(section).upper()):
+      forecast = readWeather()
+      extractedForecast = Weather().extractForecastForDayAndTime(forecast, config[section]['daysAhead'], config[section]['forecastTime'])
+      #return render_template('email_template.html',
+        #config=config[section],
+        #forecast=extractedForecast
+        #)
+      return extractedForecast
+  return 'nothing today'
 
 @app.route('/weather')
 def readWeather():
