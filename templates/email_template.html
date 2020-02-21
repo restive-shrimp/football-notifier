@@ -9,6 +9,7 @@ body {
     padding: 0;
     mso-line-height-rule: exactly;
     min-width: 100%;
+    font-family:Roboto, Helvetica, sans-serif;
 }
 
 .wrapper {
@@ -264,29 +265,42 @@ a {
                     <tbody>
                     <tr>
                         <td class="padded">
-                          <h1>{{emailTitle}}</h1>
+                          <h1>{{config['emailTitle']}}</h1>
                           <div class="spacer">&nbsp;</div>
                           <table class="content" border="0" cellspacing="0" cellpadding="0">
                     <tbody>
                     <tr>
-                      <td class="padded centered"><img src="{{icon1}}"></td>
-                      <td class="padded centered"><img src="{{icon2}}"></td>
-                      <td class="padded centered"><img src="{{icon3}}"></td>
+                      <td class="padded centered"><img src="{{icons[forecast[0][0]['icon']]}}"></td>
+                      <td class="padded centered"><img src="{{icons[forecast[1][0]['icon']]}}"></td>
+                      <td class="padded centered"><img src="{{icons[forecast[2][0]['icon']]}}"></td>
                     </tr>
-                                          <tr>
-                      <td class="padded centered"><strong>{{time1}}</strong></td>
-                      <td class="padded centered"><strong>{{time2}}</strong></td>
-                      <td class="padded centered"><strong>{{time3}}</strong></td>
+                    <tr>
+                      <td class="padded centered caption"><strong>{{forecast[0][0]['temperature']|string + '°C'}}</strong></td>
+                      <td class="padded centered caption"><strong>{{forecast[1][0]['temperature']|string + '°C'}}</strong></td>
+                      <td class="padded centered caption"><strong>{{forecast[2][0]['temperature']|string + '°C'}}</strong></td>
+                    </tr>
+                    </tr>
+                    <tr>
+                      <td class="padded centered caption"><strong>{{'Chance of ' + forecast[0][0]['precipType']|string + ' : ' + (forecast[0][0]['precipProbability']*100)|string + '%'}}</strong></td>
+                      <td class="padded centered caption"><strong>{{'Chance of ' + forecast[1][0]['precipType']|string + ' : ' + (forecast[0][0]['precipProbability']*100)|string + '%'}}</strong></td>                                            <td class="padded centered caption"><strong>{{'Chance of ' + forecast[2][0]['precipType']|string + ' : ' + (forecast[0][0]['precipProbability']*100)|string + '%'}}</strong></td>
+                    </tr>                    <tr>
+                      <td class="padded centered"><strong>{{(config['forecastTime']|int - 1)|string + ':00'}}</strong></td>
+                      <td class="padded centered"><strong>{{(config['forecastTime']|int)|string + ':00'}}</strong></td>
+                      <td class="padded centered"><strong>{{(config['forecastTime']|int + 1)|string + ':00'}}</strong></td>
                     </tr>
                             </tbody>
                           </table>
                           
                           <div class="spacer">&nbsp;</div>
-                                                    <div class="spacer">&nbsp;</div>
+                          <div class="spacer">&nbsp;</div>
                           <div class="spacer">&nbsp;</div>
 
-                          <p style="text-align:center;"><a href="#" class="btn">I am going</a></p>
+                          <p style="text-align:center;">Please respond "I am in" if you are attending.</p>
+
+                         <!-- 
+                           <p style="text-align:center;"><a href="#" class="btn">I am going</a></p>
                            <p style="text-align:center;"><a href="#" class="btn red">I am not going</a></p>
+                        -->
                           <p class="caption">Don't know location?<br/> Click here: <a href="https://goo.gl/maps/9U9X8ZRxdFse6V6b9">Google Maps</a>.</p>
                         </td>
                     </tr>

@@ -67,7 +67,7 @@ class Weather:
     for forecastTime in forecastTimes:
       forecastNodesList.append(utils.extractNodeByTimestamp(forecast['hourly']['data'], forecastTime))
 
-    return str(forecastNodesList)
+    return forecastNodesList
 
   def convertToString(self, dateTimestampArray):
   	# Converts timestamp to string.
