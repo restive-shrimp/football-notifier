@@ -1,7 +1,7 @@
 import os
 import json
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 from google.cloud import datastore
 from apiclient.discovery import build
 from apiclient import errors
@@ -17,6 +17,7 @@ from datetime import date, datetime
 
 from bin import utils
 from bin.weather import Weather
+from bin.mailmanager import MailManager
 
 
 app = Flask(__name__)
@@ -24,6 +25,12 @@ app = Flask(__name__)
 
 config = configparser.ConfigParser()
 config.read('./config/config.ini')
+
+def callFromCron(*args, **kwargs):
+  if request.headers.get('X-AppEngine-Cron') is None:
+    return False
+  else:
+    return True
 
 @app.route('/')
 def main():
@@ -36,52 +43,15 @@ def sendMail(weekday):
   #This is a page which cron job requests to send an email.
   #If 'today' is defined in config.ini, get the current forecast and
   #send an email. Otherwise return.
+  if callFromCron():
+    m = MailManager(config, weekday)
+    return m.createEmailMessageContent()
+  else:
+  	return redirect(url_for('main'))
 
-  #Check if call which is made, is actually matching today's day name.
-  #if str(weekday).upper() == str(date.today().strftime('%A')).upper():
-  #  todayWeekday = weekday
-  #else:
-  #	todayWeekday = date.today().strftime('%A')
-  todayWeekday = weekday
-
-  #Check config.ini to confirm configuration. 
-  for section in config.sections():
-    if(str(todayWeekday).upper() == str(section).upper()):
-      forecast = readWeather()
-      extractedForecast = Weather().extractForecastForDayAndTime(forecast, 
-      	config[section]['daysAhead'], 
-      	config[section]['forecastTime'])
-      return render_template('email_template.html',
-        config=config[section],
-        forecast=extractedForecast,
-        icons=config['ICONS']
-        )
-      #return extractedForecast
-  return 'nothing today'
-
-@app.route('/weather')
-def readWeather():
-  forecast = Weather().getForecast(config)
-  return forecast
-
-@app.route('/weather2')
-def readWeather2():
-  forecast = Weather().getForecastForDayAndTime()
-  return forecast
-  
 
 if __name__ == '__main__':
     # This is used when running locally only. When deploying to Google App
     # Engine, a webserver process such as Gunicorn will serve the app. This
     # can be configured by adding an `entrypoint` to app.yaml.
     app.run(host='127.0.0.1', port=8080, debug=True)
-
-def service_account_login():
-  SCOPES = ['https://www.googleapis.com/auth/gmail.send']
-  SERVICE_ACCOUNT_FILE = '/config/football-pyrmont-0534a031aea2.json'
-
-  credentials = service_account.Credentials.from_service_account_file(
-          SERVICE_ACCOUNT_FILE, scopes=SCOPES)
-  delegated_credentials = credentials.with_subject(EMAIL_FROM)
-  service = build('gmail', 'v1', credentials=delegated_credentials)
-  return service

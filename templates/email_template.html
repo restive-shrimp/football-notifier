@@ -25,10 +25,10 @@ body, .wrapper {
     background-color: #ffffff;
 }
 
-  img {
-    margin-bottom:10px;
-    width: 64px;
-  }  
+img, .miniature {
+margin-bottom:10px;
+width: 64px;
+}  
   
 /* Basic */
 table {
@@ -270,9 +270,9 @@ a {
                           <table class="content" border="0" cellspacing="0" cellpadding="0">
                     <tbody>
                     <tr>
-                      <td class="padded centered"><img src="{{icons[forecast[0][0]['icon']]}}"></td>
-                      <td class="padded centered"><img src="{{icons[forecast[1][0]['icon']]}}"></td>
-                      <td class="padded centered"><img src="{{icons[forecast[2][0]['icon']]}}"></td>
+                      <td class="padded centered"><img class="miniature" src="{{icons[forecast[0][0]['icon']]}}"></td>
+                      <td class="padded centered"><img class="miniature" src="{{icons[forecast[1][0]['icon']]}}"></td>
+                      <td class="padded centered"><img class="miniature" src="{{icons[forecast[2][0]['icon']]}}"></td>
                     </tr>
                     <tr>
                       <td class="padded centered caption"><strong>{{forecast[0][0]['temperature']|string + '°C'}}</strong></td>

@@ -1,0 +1,79 @@
+<html>
+  <head/>
+  <body style="margin: 0;padding: 0;mso-line-height-rule: exactly;min-width: 100%;font-family: Roboto, Helvetica, sans-serif;background-color: #fff">
+    <center class="wrapper" style="display: table;table-layout: fixed;width: 100%;min-width: 620px;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;background-color: #fff">
+    <table class="top-panel center" width="602" border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse;border-spacing: 0;margin: 0 auto;width: 602px">
+        <tbody>
+        <tr>
+            <td class="title" width="300" style="padding: 8px 0;vertical-align: top;text-align: left;width: 300px;color: #616161;font-family: Roboto, Helvetica, sans-serif;font-weight: 400;font-size: 12px;line-height: 14px">Football Pyrmont</td>
+            <td class="subject" width="300" style="padding: 8px 0;vertical-align: top;text-align: right;width: 300px;color: #616161;font-family: Roboto, Helvetica, sans-serif;font-weight: 400;font-size: 12px;line-height: 14px">Forecast by https://darksky.net/</td>
+        </tr>
+        <tr>
+            <td class="border" colspan="2" style="padding: 0;vertical-align: top;font-size: 1px;line-height: 1px;background-color: #e0e0e0;width: 1px"> </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="spacer" style="font-size: 1px;line-height: 16px;width: 100%"> </div>
+
+    <table class="main center" width="602" border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse;border-spacing: 0;margin: 0 auto;width: 602px;-webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.24);-moz-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.24);box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.24)">
+        <tbody>
+        <tr>
+            <td class="column" style="padding: 0;vertical-align: top;text-align: left;background-color: #fff;font-size: 14px">
+                <div class="column-top" style="font-size: 24px;line-height: 24px"> </div>
+                <table class="content" border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse;border-spacing: 0;width: 100%">
+                    <tbody>
+                    <tr>
+                        <td class="padded" style="padding: 0 24px;vertical-align: top">
+                          <h1 style="margin-top: 0;margin-bottom: 16px;color: #212121;font-family: Roboto, Helvetica, sans-serif;font-weight: 400;font-size: 20px;line-height: 28px">{{config['emailTitle']}}</h1>
+                          <div class="spacer" style="font-size: 1px;line-height: 16px;width: 100%"> </div>
+                          <table class="content" border="0" cellspacing="0" cellpadding="0" style="border-collapse: collapse;border-spacing: 0;width: 100%">
+                    <tbody>
+                    <tr>
+                      <td class="padded centered" style="padding: 0 24px;vertical-align: top;text-align: center"><img class="miniature" src="{{icons[forecast[0][0]['icon']]}}" style="margin-bottom: 10px;width: 64px;border: 0;-ms-interpolation-mode: bicubic"/></td>
+                      <td class="padded centered" style="padding: 0 24px;vertical-align: top;text-align: center"><img class="miniature" src="{{icons[forecast[1][0]['icon']]}}" style="margin-bottom: 10px;width: 64px;border: 0;-ms-interpolation-mode: bicubic"/></td>
+                      <td class="padded centered" style="padding: 0 24px;vertical-align: top;text-align: center"><img class="miniature" src="{{icons[forecast[2][0]['icon']]}}" style="margin-bottom: 10px;width: 64px;border: 0;-ms-interpolation-mode: bicubic"/></td>
+                    </tr>
+                    <tr>
+                      <td class="padded centered caption" style="padding: 0 24px;vertical-align: top;text-align: center;color: #616161;font-size: 12px;line-height: 20px"><strong style="font-weight: 700">{{forecast[0][0]['temperature']|string + '°C'}}</strong></td>
+                      <td class="padded centered caption" style="padding: 0 24px;vertical-align: top;text-align: center;color: #616161;font-size: 12px;line-height: 20px"><strong style="font-weight: 700">{{forecast[1][0]['temperature']|string + '°C'}}</strong></td>
+                      <td class="padded centered caption" style="padding: 0 24px;vertical-align: top;text-align: center;color: #616161;font-size: 12px;line-height: 20px"><strong style="font-weight: 700">{{forecast[2][0]['temperature']|string + '°C'}}</strong></td>
+                    </tr>
+                        {% if forecast[1][0]['precipProbability']>0 %}
+                    <tr>
+                      <td class="padded centered caption" style="padding: 0 24px;vertical-align: top;text-align: center;color: #616161;font-size: 12px;line-height: 20px"><strong style="font-weight: 700">{{'Chance of ' + forecast[0][0]['precipType']|string + ' : ' + (forecast[0][0]['precipProbability']*100)|string + '%'}}</strong></td>
+                      <td class="padded centered caption" style="padding: 0 24px;vertical-align: top;text-align: center;color: #616161;font-size: 12px;line-height: 20px"><strong style="font-weight: 700">{{'Chance of ' + forecast[1][0]['precipType']|string + ' : ' + (forecast[0][0]['precipProbability']*100)|string + '%'}}</strong></td>                                            <td class="padded centered caption" style="padding: 0 24px;vertical-align: top;text-align: center;color: #616161;font-size: 12px;line-height: 20px"><strong style="font-weight: 700">{{'Chance of ' + forecast[2][0]['precipType']|string + ' : ' + (forecast[0][0]['precipProbability']*100)|string + '%'}}</strong></td>
+                    </tr>
+                        {% endif %}                    
+                    <tr>
+                      <td class="padded centered" style="padding: 0 24px;vertical-align: top;text-align: center"><strong style="font-weight: 700">{{(config['forecastTime']|int - 1)|string + ':00'}}</strong></td>
+                      <td class="padded centered" style="padding: 0 24px;vertical-align: top;text-align: center"><strong style="font-weight: 700">{{(config['forecastTime']|int)|string + ':00'}}</strong></td>
+                      <td class="padded centered" style="padding: 0 24px;vertical-align: top;text-align: center"><strong style="font-weight: 700">{{(config['forecastTime']|int + 1)|string + ':00'}}</strong></td>
+                    </tr>
+                            </tbody>
+                          </table>
+                          
+                          <div class="spacer" style="font-size: 1px;line-height: 16px;width: 100%"> </div>
+                          <div class="spacer" style="font-size: 1px;line-height: 16px;width: 100%"> </div>
+                          <div class="spacer" style="font-size: 1px;line-height: 16px;width: 100%"> </div>
+
+                          <p style="text-align: center;margin-top: 0;margin-bottom: 16px;color: #212121;font-family: Roboto, Helvetica, sans-serif;font-weight: 400;font-size: 16px;line-height: 24px">Please respond "I am in" if you are attending.</p>
+
+                         <!-- 
+                           <p style="text-align:center;"><a href="#" class="btn">I am going</a></p>
+                           <p style="text-align:center;"><a href="#" class="btn red">I am not going</a></p>
+                        -->
+                          <p class="caption" style="margin-top: 0;margin-bottom: 16px;color: #616161;font-family: Roboto, Helvetica, sans-serif;font-weight: 400;font-size: 12px;line-height: 20px">Don't know location?<br/> Click here: <a href="https://goo.gl/maps/9U9X8ZRxdFse6V6b9" style="text-decoration: none;color: #616161">Google Maps</a>.</p>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="column-bottom" style="font-size: 8px;line-height: 8px"> </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="spacer" style="font-size: 1px;line-height: 16px;width: 100%"> </div>    
+</center>
+  </body>
+</html>
