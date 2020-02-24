@@ -1,19 +1,7 @@
-import os
-import json
-
 from flask import Flask, render_template, request, redirect, url_for
-from google.cloud import datastore
 from apiclient.discovery import build
-from apiclient import errors
-from httplib2 import Http
-from oauth2client import file, client, tools
-from email.mime.text import MIMEText
-from base64 import urlsafe_b64encode
-import requests
-from requests.auth import HTTPDigestAuth
 import configparser
 import json
-from datetime import date, datetime
 
 from bin import utils
 from bin.weather import Weather
@@ -22,11 +10,17 @@ from bin.mailmanager import MailManager
 
 app = Flask(__name__)
 
-
+#Load config.ini file.
 config = configparser.ConfigParser()
 config.read('./config/config.ini')
 
+
 def callFromCron(*args, **kwargs):
+  """Function checking if the call was made by cron.
+  
+  Returns:
+    True if headers are from cron job.
+  """
   if request.headers.get('X-AppEngine-Cron') is None:
     return False
   else:
@@ -34,15 +28,35 @@ def callFromCron(*args, **kwargs):
 
 @app.route('/')
 def main():
-  #Main page will display current week counter with number of players who accepted an invitation.
-  return str(config.sections())
+  """Main page of the football notifier.
+  
+  Returns:
+    A redirection to a homepage of a Google Group.
+  """
+  return redirect(config['REDIRECTS']['googleGroup'], code=302)
 
+@app.errorhandler(404) 
+# inbuilt function which takes error as parameter 
+def not_found(e): 
+  """404 error handler.
+
+  Returns:
+    A 404 html template.
+  """
+  return render_template("404.html") 
     
 @app.route('/mail/<weekday>')
 def sendMail(weekday):
-  #This is a page which cron job requests to send an email.
-  #If 'today' is defined in config.ini, get the current forecast and
-  #send an email. Otherwise return.
+  """This is a page which cron job requests to send an email.
+  If 'today' is defined in config.ini, and call was made from cron, 
+  get the current forecast and send an email. Otherwise redirect.
+
+  Args: 
+  weekday from url
+  
+  Returns:
+    A message content of the email or redirection to Google
+  """
   if callFromCron():
     m = MailManager(config, weekday)
     return m.createEmailMessageContent()
