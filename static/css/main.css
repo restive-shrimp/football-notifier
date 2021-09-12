@@ -39,3 +39,9 @@ h5 {
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
+
+.credits a {
+  text-decoration: none;
+  font-size: 0.6em;
+  color: #ccc;
+}

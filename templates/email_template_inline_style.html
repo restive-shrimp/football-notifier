@@ -44,7 +44,7 @@
                       <td class="padded centered caption" style="padding: 0 24px;vertical-align: top;text-align: center;color: #616161;font-size: 12px;line-height: 20px"><strong style="font-weight: 700">{{'Chance of ' + forecast[0][0]['precipType']|string + ' : ' + (forecast[0][0]['precipProbability']*100)|string + '%'}}</strong></td>
                       <td class="padded centered caption" style="padding: 0 24px;vertical-align: top;text-align: center;color: #616161;font-size: 12px;line-height: 20px"><strong style="font-weight: 700">{{'Chance of ' + forecast[1][0]['precipType']|string + ' : ' + (forecast[0][0]['precipProbability']*100)|string + '%'}}</strong></td>                                            <td class="padded centered caption" style="padding: 0 24px;vertical-align: top;text-align: center;color: #616161;font-size: 12px;line-height: 20px"><strong style="font-weight: 700">{{'Chance of ' + forecast[2][0]['precipType']|string + ' : ' + (forecast[0][0]['precipProbability']*100)|string + '%'}}</strong></td>
                     </tr>
-                        {% endif %}                    
+                        {% endif %}
                     <tr>
                       <td class="padded centered" style="padding: 0 24px;vertical-align: top;text-align: center"><strong style="font-weight: 700">{{(config['forecastTime']|int - 1)|string + ':00'}}</strong></td>
                       <td class="padded centered" style="padding: 0 24px;vertical-align: top;text-align: center"><strong style="font-weight: 700">{{(config['forecastTime']|int)|string + ':00'}}</strong></td>
@@ -52,14 +52,15 @@
                     </tr>
                             </tbody>
                           </table>
-                          
+
                           <div class="spacer" style="font-size: 1px;line-height: 16px;width: 100%"> </div>
                           <div class="spacer" style="font-size: 1px;line-height: 16px;width: 100%"> </div>
                           <div class="spacer" style="font-size: 1px;line-height: 16px;width: 100%"> </div>
 
-                          <p style="text-align: center;margin-top: 0;margin-bottom: 16px;color: #212121;font-family: Roboto, Helvetica, sans-serif;font-weight: 400;font-size: 16px;line-height: 24px">Please respond "I am in" if you are attending.</p>
+                          <!--<p style="text-align: center;margin-top: 0;margin-bottom: 16px;color: #212121;font-family: Roboto, Helvetica, sans-serif;font-weight: 400;font-size: 16px;line-height: 24px">Please respond "I am in" if you are attending.</p> -->
+                          <p style="margin-top: 0; text-align: center;">Please respond <button class="pure-material-button-contained" style="position: relative; display: inline-block; box-sizing: border-box; border: none; border-radius: 4px; padding: 0 16px; min-width: 64px; height: 36px; vertical-align: middle; text-align: center; text-overflow: ellipsis; text-transform: uppercase; color: rgb(var(--pure-material-onprimary-rgb, 255, 255, 255)); background-color: rgb(var(--pure-material-primary-rgb, 33, 150, 243)); box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12); font-family: var(--pure-material-font, 'Roboto', 'Segoe UI', BlinkMacSystemFont, system-ui, -apple-system); font-size: 14px; font-weight: 500; line-height: 36px; overflow: hidden; outline: none; cursor: pointer; transition: box-shadow 0.2s; margin: 0px 10px 0px 10px;"> I am in </button> if you are attending.</p>
 
-                         <!-- 
+                         <!--
                            <p style="text-align:center;"><a href="#" class="btn">I am going</a></p>
                            <p style="text-align:center;"><a href="#" class="btn red">I am not going</a></p>
                         -->
@@ -73,7 +74,7 @@
         </tr>
         </tbody>
     </table>
-    <div class="spacer" style="font-size: 1px;line-height: 16px;width: 100%"> </div>    
+    <div class="spacer" style="font-size: 1px;line-height: 16px;width: 100%"> </div>
 </center>
   </body>
 </html>
